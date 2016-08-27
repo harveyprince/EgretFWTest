@@ -115,6 +115,26 @@ var Main = (function (_super) {
         icon.x += 30;
         icon.y += 40;
         egret.Tween.get(icon).to({ alpha: .3, scaleX: .4, scaleY: .4 }, 600, egret.Ease.circIn).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 600, egret.Ease.circIn);
+        var draggedObject;
+        var offsetX;
+        var offsetY;
+        icon.touchEnabled = true;
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
+        icon.addEventListener(egret.TouchEvent.TOUCH_END, stopMove, this);
+        function startMove(e) {
+            draggedObject = e.currentTarget;
+            offsetX = e.stageX - draggedObject.x;
+            offsetY = e.stageY - draggedObject.y;
+            this.addChild(draggedObject);
+            this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
+        }
+        function stopMove(e) {
+            this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
+        }
+        function onMove(e) {
+            draggedObject.x = e.stageX - offsetX;
+            draggedObject.y = e.stageY - offsetY;
+        }
     };
     return Main;
 }(egret.DisplayObjectContainer));

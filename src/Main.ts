@@ -136,6 +136,34 @@ class Main extends egret.DisplayObjectContainer {
         icon.y += 40;
 
         egret.Tween.get(icon).to({alpha: .3,scaleX:.4, scaleY:.4},600,egret.Ease.circIn).to({alpha:1,scaleX:1, scaleY:1},600,egret.Ease.circIn);
+
+        var draggedObject:egret.Bitmap;
+        var offsetX:number;
+        var offsetY:number;
+
+        icon.touchEnabled = true;
+
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
+        icon.addEventListener(egret.TouchEvent.TOUCH_END, stopMove, this);
+
+        function startMove(e:egret.TouchEvent):void{
+             draggedObject = e.currentTarget;
+             offsetX = e.stageX - draggedObject.x;
+             offsetY = e.stageY - draggedObject.y;
+
+             this.addChild(draggedObject);
+
+             this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE,onMove,this);
+
+        }
+        function stopMove(e:egret.TouchEvent){
+            this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onMove, this);
+
+        }
+        function onMove(e:egret.TouchEvent):void{
+            draggedObject.x = e.stageX - offsetX;
+            draggedObject.y = e.stageY - offsetY;
+        }
     }
 
 }
