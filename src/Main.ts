@@ -134,6 +134,7 @@ class Main extends egret.DisplayObjectContainer {
 
         icon.x += 30;
         icon.y += 40;
+        icon.skewX = 20;
 
         egret.Tween.get(icon).to({alpha: .3,scaleX:.4, scaleY:.4},600,egret.Ease.circIn).to({alpha:1,scaleX:1, scaleY:1},600,egret.Ease.circIn);
 
